@@ -1,0 +1,61 @@
+CREATE DATABASE test;
+
+CREATE TABLE person(
+user_id varchar(25) NOT NULL PRIMARY KEY,
+password varchar(100) NOT NULL,
+fullName varchar(30) NOT NULL,
+email varchar(50) NOT NULL, 
+joined TIMESTAMP DEFAULT CURRENT_TIMESTAMP, 
+active int(1) NOT NULL);
+
+CREATE TABLE following(
+user_id varchar(25) NOT NULL,
+following_id varchar(25) NOT NULL, 
+FOREIGN KEY(user_id) REFERENCES person(user_id) ON DELETE CASCADE,
+FOREIGN KEY(following_id) REFERENCES person(user_id) ON DELETE CASCADE); 
+
+CREATE TABLE tweet(
+tweet_id int(10) NOT NULL AUTO_INCREMENT, 
+user_id varchar(25) NOT NULL,
+message varchar(140) NOT NULL, 
+created TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+PRIMARY KEY(tweet_id), 
+FOREIGN KEY(user_id) REFERENCES person(user_id) ON DELETE CASCADE);
+
+CREATE TABLE securitycheck(
+user_id varchar(25) NOT NULL PRIMARY KEY,
+password varchar(100) NOT NULL,
+fullName varchar(30) NOT NULL,
+answer varchar(30) NOT NULL,
+email varchar(50) NOT NULL
+);
+
+INSERT INTO person(user_id,password,fullName,email,active) VALUES('nakul',SHA1('nakul'),'nakul','nakul@gmail.com',1);
+INSERT INTO person(user_id,password,fullName,email,active) VALUES('swati',SHA1('swati'),'swati','swati@gmail.com',1);
+INSERT INTO person(user_id,password,fullName,email,active) VALUES('bharat',SHA1('bharat'),'bharat','bharat@gmail.com',1);
+INSERT INTO person(user_id,password,fullName,email,active) VALUES('mohan',SHA1('mohan'),'mohan','mohan@gmail.com',1);
+INSERT INTO person(user_id,password,fullName,email,active) VALUES('rohan',SHA1('rohan'),'rohan','rohan@gmail.com',1);
+INSERT INTO person(user_id,password,fullName,email,active) VALUES('sohan',SHA1('sohan'),'sohan','sohan@gmail.com',1);
+INSERT INTO person(user_id,password,fullName,email,active) VALUES('sahil',SHA1('sahil'),'sahil','sahil@gmail.com',1);
+
+INSERT INTO tweet(user_id,message) VALUES('nakul','hello !');
+INSERT INTO tweet(user_id,message) VALUES('swati','byee !');
+INSERT INTO tweet(user_id,message) VALUES('bharat','whats up!! ');
+INSERT INTO tweet(user_id,message) VALUES('swati','morning !');
+INSERT INTO tweet(user_id,message) VALUES('swati','goodday !');
+
+
+INSERT INTO following VALUES ('nakul','swati');
+INSERT INTO following VALUES ('swati','nakul');
+INSERT INTO following VALUES ('nakul','bharat');
+INSERT INTO following VALUES ('bharat','swati');
+INSERT INTO following VALUES ('swati','bharat');
+
+
+INSERT INTO securitycheck VALUES ('nakul',SHA1('nakul'),'nakul','nikhil','nakul@gmail.com');
+INSERT INTO securitycheck VALUES ('swati',SHA1('swati'),'swati','bharat','swati@gmail.com');
+INSERT INTO securitycheck VALUES ('bharat',SHA1('bharat'),'bharat','swati','bharat@gmail.com');
+INSERT INTO securitycheck VALUES ('mohan',SHA1('mohan'),'mohan','rohan','mohan@gmail.com');
+INSERT INTO securitycheck VALUES ('rohan',SHA1('rohan'),'rohan','sahil','rohan@gmail.com');
+INSERT INTO securitycheck VALUES ('sahil',SHA1('sahil'),'sahil','nikhil','sahil@gmail.com');
+
